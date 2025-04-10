@@ -26,4 +26,4 @@ test('Login', async ({page}) => {
     await expect(page.locator('[data-test="product-title"]')).toContainText('Slip Joint Pliers ');
     await expect(page.locator('[data-test="proceed-1"]')).toBeVisible();
 
-})
+});

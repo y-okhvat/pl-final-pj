@@ -12,4 +12,4 @@ await expect(page.locator('[data-test="unit-price"]')).toContainText('14.15');
 await expect(page.locator('[data-test="add-to-cart"]')).toBeVisible();
 await expect(page.locator('[data-test="add-to-favorites"]')).toBeVisible();
 
-})
+});
