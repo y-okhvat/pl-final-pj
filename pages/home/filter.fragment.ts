@@ -9,8 +9,8 @@ export class FilterFragment {
 
     constructor (page: Page) {
         this.page = page;
-        this.root = this.page.locator('[data-test="filters"]');
-        this.sortDropdown = this.root.locator('[data-test="sort"]');
+        this.root = page.getByTestId("filters");
+        this.sortDropdown = this.root.getByTestId("sort");
     }
 
     async selectSortOption(option: SortOption): Promise<void> {
