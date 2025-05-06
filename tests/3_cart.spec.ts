@@ -1,30 +1,29 @@
 import { test, expect } from "@playwright/test";
-import { productPage } from '../pages/ProductPage';
+import { ProductPage } from '../pages/ProductPage';
 
-test('Login', async ({page}) => {
-    const cartLocator = new productPage(page) ;
+test('Add Slip Joint Pliers to cart and verify', async ({page}) => {
+    const productPage = new ProductPage(page) ;
 
 
     await page.goto('https://practicesoftwaretesting.com');
-    await cartLocator.productLocator.click();  
-
+    await productPage.productNameList.filter({ hasText: "Slip Joint Pliers" }).first().click();
     
-    await expect(page.locator('[data-test="product-name"]')).toContainText('Slip Joint Pliers');
-    await expect(page.locator('[data-test="unit-price"]')).toContainText('9.17');
+    await expect(page.getByTestId("product-name")).toContainText('Slip Joint Pliers');
+    await expect(page.getByTestId("unit-price")).toContainText('9.17');
 
-    await cartLocator.addToCart();
+    await productPage.addToCart();
 
     const cartMessage = page.locator('[aria-label="Product added to shopping cart."]');
     await expect(cartMessage).toBeVisible({timeout: 10000});
     await expect(cartMessage).toContainText("Product added to shopping cart.");
     await expect(cartMessage).toBeHidden({timeout: 10000});
-    await expect(page.locator('[data-test="cart-quantity"]')).toContainText('1');
+    await expect(page.getByTestId("cart-quantity")).toContainText('1');
 
-    await cartLocator.goToCart();
+    await productPage.goToCart();
    
     await expect(page).toHaveURL('https://practicesoftwaretesting.com/checkout');
-    await expect(page.locator('[data-test="cart-quantity"]')).toContainText('1');
-    await expect(page.locator('[data-test="product-title"]')).toContainText('Slip Joint Pliers ');
-    await expect(page.locator('[data-test="proceed-1"]')).toBeVisible();
+    await expect(page.getByTestId("cart-quantity")).toContainText('1');
+    await expect(page.getByTestId("product-title")).toContainText('Slip Joint Pliers ');
+    await expect(page.getByTestId("proceed-1")).toBeVisible();
 
 });
