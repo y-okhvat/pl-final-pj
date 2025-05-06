@@ -7,11 +7,10 @@ export class LoginPage {
   submitButton: Locator;
   constructor (page: Page) {
     this.page = page;
-    this.emailLocator = this.page.locator('[data-test="email"]');
-    this.password = this.page.locator('[data-test="password"]');
-    this.submitButton = this.page.locator('[data-test="login-submit"]');
+    this.emailLocator = page.getByTestId("email");
+    this.password = page.getByTestId("password");
+    this.submitButton = page.getByTestId("login-submit");
   }  
-
 
 
 async login(email: string, password: string): Promise<void> {
