@@ -9,6 +9,6 @@ await loginPage.login('customer@practicesoftwaretesting.com', 'welcome01');
 
 
 await expect(page).toHaveURL('https://practicesoftwaretesting.com/account');
-await expect(page.locator('[data-test="page-title"]')).toContainText('My account');
-await expect(page.locator('[data-test="nav-menu"]')).toContainText('Jane Doe');
+await expect(page.getByTestId("page-title")).toContainText('My account');
+await expect(page.getByTestId("nav-menu")).toContainText('Jane Doe');
 });
