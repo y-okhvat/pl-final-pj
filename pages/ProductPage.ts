@@ -9,7 +9,12 @@ export class ProductPage {
     readonly cartIconLocator: Locator;
     readonly addToCartButton: Locator;
     readonly addToFavoritesButton: Locator;
-    readonly productNameList: Locator;
+    readonly productNameListOnHomePage: Locator;
+    readonly cartAlertMessage: Locator;
+    readonly itemTitleInCart: Locator;
+    readonly proceedToCheckoutButtonInCart: Locator;
+    readonly cartQuantityBadge: Locator;
+    
      constructor (page: Page) {
         this.page = page;
          this.firstProductNameInList = page.getByTestId("product-name").first();
@@ -19,18 +24,23 @@ export class ProductPage {
          this.cartIconLocator = page.getByTestId("nav-cart");
          this.addToCartButton = page.getByTestId("add-to-cart");
          this.addToFavoritesButton = page.getByTestId("add-to-favorites");
-         this.productNameList = page.getByTestId("product-name");
+         this.productNameListOnHomePage = page.getByTestId("product-name");
+         this.cartAlertMessage = page.getByRole("alert");
+         this.itemTitleInCart = page.getByTestId("product-title");
+         this.proceedToCheckoutButtonInCart = page.getByTestId("proceed-1");
+         this.cartQuantityBadge = page.getByTestId("cart-quantity");
+         
 
     }
     async openFirstProduct(): Promise<void> {
         await this.firstProductNameInList.click();
       }
 
-      async getNameFromList(): Promise<string> {
+      async getFirstProductName(): Promise<string> {
         return await this.firstProductNameInList.innerText();
       }
 
-      async getPriceFromList(): Promise<string> {
+      async getFirstProductPrice(): Promise<string> {
         return await this.firstProductPriceInList.innerText();
       }
 
