@@ -1,15 +1,20 @@
 import {Locator, Page} from "@playwright/test";
 
 export class LoginPage {
-  page: Page;
-  emailLocator: Locator;
-  password: Locator;
-  submitButton: Locator;
+  readonly page: Page;
+  readonly emailLocator: Locator;
+  readonly password: Locator;
+  readonly submitButton: Locator;
+  readonly myAccountTitle: Locator;
+  readonly menuButton: Locator;
+  
   constructor (page: Page) {
     this.page = page;
     this.emailLocator = page.getByTestId("email");
     this.password = page.getByTestId("password");
     this.submitButton = page.getByTestId("login-submit");
+    this.myAccountTitle = page.getByTestId("page-title");
+    this.menuButton = page.getByTestId("nav-menu");
   }  
 
 
