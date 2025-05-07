@@ -1,29 +1,41 @@
 import { test, expect } from "@playwright/test";
+import { ProductPage } from '../pages/ProductPage';
 
-test('Login', async ({page}) => {
-    const productLocator = 'text=Slip Joint Pliers';
-    const cartLocator = '[data-test="add-to-cart"]';
-   const cartIconLocator = '[data-test="nav-cart"]';
+test('Add Slip Joint Pliers to cart and verify', async ({page}) => {
+    const productPage = new ProductPage(page) ;
 
+    await test.step('Navigate to the home page', async () => {
+    await page.goto('/');
+    });
 
-    await page.goto('https://practicesoftwaretesting.com');
-    await page.locator(productLocator).click();
+    await test.step('Open product details page', async () => {
+    await productPage.productNameListOnHomePage.filter({ hasText: "Slip Joint Pliers" }).first().click();
+    });
+    
+    await test.step('Verify product name and price match ', async () => {
+    await expect(productPage.productNameOnPage).toContainText('Slip Joint Pliers');
+    await expect(productPage.productPriceOnPage).toContainText('9.17');
+    });
 
-    await expect(page).toHaveURL('https://practicesoftwaretesting.com/product/01JRA36BZPT9NPYG3F8TF461J1');
-    await expect(page.locator('[data-test="product-name"]')).toContainText('Slip Joint Pliers');
-    await expect(page.locator('[data-test="unit-price"]')).toContainText('9.17');
+    await test.step('Add product to cart', async () => {
+    await productPage.addToCart();
+    });
 
-    await page.locator(cartLocator).click();
-    await expect(page.locator('[aria-label="Product added to shopping cart."]')).toBeVisible();
-    await expect(page.locator('[aria-label="Product added to shopping cart."]')).toContainText("Product added to shopping cart.");
-    await page.waitForTimeout(8000);
-    await expect(page.locator('[aria-label="Product added to shopping cart."]')).toBeHidden();
-    await expect(page.locator('[data-test="cart-quantity"]')).toContainText('1');
+    await test.step('Verify carts alert message', async () => {
+    const cartMessage = productPage.cartAlertMessage;
+    
+    await expect(cartMessage).toBeVisible({timeout: 10000});
+    await expect(cartMessage).toContainText("Product added to shopping cart.");
+    await expect(cartMessage).toBeHidden({timeout: 10000});
+    await expect(productPage.cartQuantityBadge).toContainText('1');
+    });
 
-    await page.locator(cartIconLocator).click();
-    await expect(page).toHaveURL('https://practicesoftwaretesting.com/checkout');
-    await expect(page.locator('[data-test="cart-quantity"]')).toContainText('1');
-    await expect(page.locator('[data-test="product-title"]')).toContainText('Slip Joint Pliers ');
-    await expect(page.locator('[data-test="proceed-1"]')).toBeVisible();
-
+    await test.step('Navigate to the checkout page and verify product name and price match ', async () => {
+    await productPage.goToCart();
+   
+    await expect(page).toHaveURL('/checkout');
+    await expect(productPage.cartQuantityBadge).toContainText('1');
+    await expect(productPage.itemTitleInCart).toContainText('Slip Joint Pliers ');
+    await expect(productPage.proceedToCheckoutButtonInCart).toBeVisible();
+    });
 });
