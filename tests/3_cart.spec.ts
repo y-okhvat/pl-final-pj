@@ -12,7 +12,7 @@ test('Add Slip Joint Pliers to cart and verify', async ({page}) => {
     await productPage.productNameListOnHomePage.filter({ hasText: "Slip Joint Pliers" }).first().click();
     });
     
-    await test.step('Verify product name and price match ', async () => {
+    await test.step('Verify product name and price match', async () => {
     await expect(productPage.productNameOnPage).toContainText('Slip Joint Pliers');
     await expect(productPage.productPriceOnPage).toContainText('9.17');
     });
@@ -30,7 +30,7 @@ test('Add Slip Joint Pliers to cart and verify', async ({page}) => {
     await expect(productPage.cartQuantityBadge).toContainText('1');
     });
 
-    await test.step('Navigate to the checkout page and verify product name and price match ', async () => {
+    await test.step('Navigate to the checkout page and verify product name and price match', async () => {
     await productPage.goToCart();
    
     await expect(page).toHaveURL('/checkout');
