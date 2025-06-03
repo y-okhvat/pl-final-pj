@@ -11,7 +11,7 @@ await test.step('Navigate to the home page', async () => {
     await page.goto('/');
 })
 
-await test.step('Get product name and price on home page ', async () => {
+await test.step('Get product name and price on home page', async () => {
 nameFromList = await productPage.getFirstProductName();
 priceFromList = await productPage.getFirstProductPrice();
 });

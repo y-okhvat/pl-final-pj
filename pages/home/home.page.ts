@@ -53,7 +53,7 @@ async expectSortedProducts (sortBy: SortOption): Promise<void> {
         break;
     }
     default:
-        throw new Error (`Unknown sort option ${sortBy}`);
+        throw new Error (`Unknown sort option ${String(sortBy)}`);
 }
     }
 };
