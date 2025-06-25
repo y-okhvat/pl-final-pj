@@ -37,19 +37,21 @@ export class ProductPage {
       }
 
       async getFirstProductName(): Promise<string> {
-        return await this.firstProductNameInList.innerText();
+        return ((await this.firstProductNameInList.innerText()).trim());
       }
 
-      async getFirstProductPrice(): Promise<string> {
-        return await this.firstProductPriceInList.innerText();
+      async getFirstProductPrice(): Promise<number> {
+        const priceText = await this.firstProductPriceInList.innerText()
+        return this.parsePrice(priceText);
       }
 
       async getNameFromProductPage(): Promise<string> {
-        return await this.productNameOnPage.innerText();
+        return ((await this.productNameOnPage.innerText()).trim());
       }
 
-      async getPriceFromProductPage(): Promise<string> {
-        return await this.productPriceOnPage.innerText();
+      async getPriceFromProductPage(): Promise<number> {
+        const priceText = await this.productPriceOnPage.innerText()
+        return this.parsePrice(priceText);
       }
 
       async addToCart(): Promise<void> {
@@ -58,6 +60,10 @@ export class ProductPage {
 
       async goToCart(): Promise<void> {
         await this.cartIconLocator.click();
+      }
+      
+      private parsePrice (priceText: string): number {
+        return parseFloat(priceText.trim().replace ('$', ''));
       }
 
 }
