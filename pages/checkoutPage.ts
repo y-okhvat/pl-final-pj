@@ -22,11 +22,14 @@ export class CheckoutPage {
     this.paymentSuccessMessage = page.getByTestId("payment-success-message");
     }
 
+
 async selectPaymentMethod (): Promise<void> {
     await this.paymentDropdown.selectOption("credit-card");
 }
 
-async fillPaymentForm (cardNumber: string, date: string, cvv: string, holderName: string): Promise<void> {
+async fillPaymentForm (cardData: { cardNumber: string, date: string, cvv: string, holderName: string}): Promise<void> {
+    const { cardNumber, date, cvv, holderName } = cardData;
+    
     await this.creditCardInput.fill(cardNumber);
     await this.expirationDateInput.fill(date);
     await this.cvvInput.fill(cvv); 
