@@ -1,11 +1,10 @@
 import { test, expect } from "@playwright/test";
 import {ProductPage} from '../pages/ProductPage';
-import { parsePrice } from "../utils/priceHelper";
 
 test('Should display correct product info on product page', async ({page}) => {
     const productPage = new ProductPage(page) ;
     let nameFromList: string;
-    let priceFromList:string;
+    let priceFromList: number;
 
 await test.step('Navigate to the home page', async () => {
     await page.goto('/');
@@ -25,7 +24,7 @@ const nameOnPage = await productPage.getNameFromProductPage();
 const priceOnPage = await productPage.getPriceFromProductPage();
 
 expect(nameOnPage).toBe(nameFromList);
-expect(parsePrice(priceOnPage)).toBe(parsePrice(priceFromList));
+expect(priceOnPage).toBe(priceFromList);
 
 });
 
