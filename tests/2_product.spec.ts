@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import {ProductPage} from '../pages/ProductPage';
-import { parsePrice } from "../utils/priceHelper";
 
 test('Should display correct product info on product page', async ({page}) => {
     const productPage = new ProductPage(page) ;
