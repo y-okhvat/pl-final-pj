@@ -1,4 +1,5 @@
 import {Locator, Page} from "@playwright/test";
+import {parsePrice} from '../utils/priceHelper';
 
 export class ProductPage {
     readonly page: Page;
@@ -37,12 +38,13 @@ export class ProductPage {
       }
 
       async getFirstProductName(): Promise<string> {
-        return ((await this.firstProductNameInList.innerText()).trim());
+        const productNameText = await this.firstProductNameInList.innerText();
+        return productNameText.trim();
       }
 
       async getFirstProductPrice(): Promise<number> {
         const priceText = await this.firstProductPriceInList.innerText()
-        return this.parsePrice(priceText);
+        return parsePrice(priceText);
       }
 
       async getNameFromProductPage(): Promise<string> {
@@ -51,20 +53,17 @@ export class ProductPage {
 
       async getPriceFromProductPage(): Promise<number> {
         const priceText = await this.productPriceOnPage.innerText()
-        return this.parsePrice(priceText);
-      }
+        return parsePrice(priceText)
+      };
 
       async addToCart(): Promise<void> {
-        await this.addToCartButton.click();
-      }
+        await this.addToCartButton.click()
+      };
 
       async goToCart(): Promise<void> {
-        await this.cartIconLocator.click();
-      }
-      
-      private parsePrice (priceText: string): number {
-        return parseFloat(priceText.trim().replace ('$', ''));
-      }
+        await this.cartIconLocator.click()
+      };
+    
 
 }
 
