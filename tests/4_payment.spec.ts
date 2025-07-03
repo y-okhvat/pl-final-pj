@@ -1,24 +1,10 @@
 import { expect } from "@playwright/test";
-import { CartPage } from '../pages/cartPage';
-import { BillingPage } from '../pages/billingPage';
-import { CheckoutPage } from '../pages/checkoutPage';
-import { SignInPage } from "../pages/signInPage";
 import {test} from './fixture/fixtures'
+import {getExpirationDate} from "../utils/dateHelper";
 
-function getExpirationDate(): string {
-  const date = new Date();
-  date.setMonth(date.getMonth() + 3);
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const year = String(date.getFullYear());
-  return `${month}/${year}`;
-}
 
 test ('Checkout test', async ({loggedInPage}) => {
-    const {homePage, productPage} = loggedInPage;
-    const cartPage = new CartPage(homePage.page);
-    const billingPage = new BillingPage (homePage.page);
-    const signInPage = new SignInPage(homePage.page);
-    const checkoutPage = new CheckoutPage (homePage.page);
+    const {homePage, productPage, cartPage, billingPage, signInPage, checkoutPage} = loggedInPage;
 
     let productName: string;
     let productPrice: number;
@@ -65,12 +51,12 @@ await checkoutPage.selectPaymentMethod();
  
  await test.step('Fill payment form', async () => {
     const expirationDate = getExpirationDate();
-    await checkoutPage.fillPaymentForm(
-      '1111-1111-1111-1111',
-      expirationDate,
-      '111',
-      'Jane Doe'
-    );
+    await checkoutPage.fillPaymentForm({
+      cardNumber: '1111-1111-1111-1111',
+      date: expirationDate,
+      cvv: '111',
+      holderName: 'Jane Doe'
+ });
   });
 
 
